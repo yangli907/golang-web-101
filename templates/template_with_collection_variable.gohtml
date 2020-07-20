@@ -29,8 +29,9 @@
 		<p>{{template "nested_template" .Person}}</p>
 		<p>Composite Structs </p> 
 		<ul>
-			{{range $p := .Person}}
-			<li> {{$p.Lname}}, {{$p.Fname}} plays {{$p.Position}} </li>
+			{{range .Person}}
+			<li> {{.Lname}}, {{.Fname}} plays {{.Position}} </li>
+			<li> {{.IsPF}}
 			{{end}}
 		</ul>
 

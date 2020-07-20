@@ -18,6 +18,10 @@ func timesTwo(val int) int {
 	return val * 2
 }
 
+func (p Player) IsPF() bool {
+	return p.Position == "PF"
+}
+
 func init() {
 	temp = template.Must(template.New("").Funcs(funcMap).ParseGlob("./*.gohtml"))
 }
