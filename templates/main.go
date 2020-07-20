@@ -4,12 +4,22 @@ import (
 	"log"
 	"os"
 	"text/template"	
+	"strings"
 )
 
 var temp *template.Template
 
+var funcMap = template.FuncMap {
+	"toLower": strings.ToLower,
+	"timesTwo": timesTwo,
+}
+
+func timesTwo(val int) int {
+	return val * 2
+}
+
 func init() {
-	temp = template.Must(template.ParseGlob("./*.gohtml"))
+	temp = template.Must(template.New("").Funcs(funcMap).ParseGlob("./*.gohtml"))
 }
 
 // Note: Must use capitalized field name, otherwise can't access from template
@@ -17,6 +27,12 @@ type Player struct {
 	Fname string
 	Lname string
 	Position string
+}
+
+type Car struct {
+	Make string
+	Model string
+	Year int
 }
 
 func main() {
@@ -48,5 +64,19 @@ func main() {
 		Player{"Kevin", "Durant", "SF"},
 	}
 
-	err = temp.ExecuteTemplate(os.Stdout, "template_with_collection_variable.gohtml", players)
+	cars := []Car {
+		Car{"Honda", "Accord", 2013},
+		Car{"Acura", "RDX", 2020},
+	}
+
+	data := struct {
+		Person []Player
+		Transport []Car
+	} {
+		players,
+		cars,
+	}
+
+	// err = temp.ExecuteTemplate(os.Stdout, "template_with_collection_variable.gohtml", players)
+	err = temp.ExecuteTemplate(os.Stdout, "template_with_collection_variable.gohtml", data)
 }

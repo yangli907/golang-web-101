@@ -12,12 +12,33 @@
 	</body>
 */}}
 
+{{/* <!-- Struct example --> 
 	<body>
 		<h1>Go Web Template with Collection Variables</h1>
 		<p>Top NBA players: </p> 
 		<ul>
 			{{range $index, $player := .}}
 			<li> {{$player.Lname}}, {{$player.Fname}} plays {{$player.Position}} </li>
+			{{end}}
+		</ul>
+	</body>
+*/}}
+
+	<body>
+		<h1>Go Web Template with Collection Variables</h1>
+		<p>{{template "nested_template" .Person}}</p>
+		<p>Composite Structs </p> 
+		<ul>
+			{{range $p := .Person}}
+			<li> {{$p.Lname}}, {{$p.Fname}} plays {{$p.Position}} </li>
+			{{end}}
+		</ul>
+
+		<ul>
+			{{range $t := .Transport}}
+				{{if gt $t.Year 2012}}
+					<li> {{$t.Make}}, {{toLower $t.Model}} - {{timesTwo $t.Year}} </li>
+				{{end}}
 			{{end}}
 		</ul>
 	</body>

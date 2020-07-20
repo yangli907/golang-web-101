@@ -20,3 +20,12 @@ To avoid parsing templates over and over, we can define the `init()` function to
 ## Skip rendering comment section in template
 
 See https://discourse.gohugo.io/t/how-to-add-comments-in-a-template/75/2 , wrap the comment block with `{{/*   */}}`
+
+## Using function in template
+
+To use function in template, we need to define a function map, and attach it to template memory space **before** parsing the template (otherwise it would've ended up with "variable of function not defined" error, due to the sequencing of operation). The `init()` operation code is as below:
+
+```
+temp = template.Must(template.New("")).Funcs(funcMap).ParseGlob("./*.gohtml")
+// instead of template.Must(template.ParseGlob("./*.gohtml")).Func(funcMap)
+```
