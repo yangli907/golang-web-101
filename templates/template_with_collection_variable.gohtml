@@ -1,8 +1,24 @@
 <!DOCTYPE html>
 <html>
+{{/*	<!-- Exmaple using Using slice or map  -->
 	<body>
-		{{$names := .}}
 		<h1>Go Web Template with Collection Variables</h1>
-		<p>TBA</p> 
+		<p>Top NBA players: </p> 
+		<ul>
+			{{range $fname, $lname := .}}
+			<li> {{$lname}}, {{$fname}}</li>
+			{{end}}
+		</ul>
+	</body>
+*/}}
+
+	<body>
+		<h1>Go Web Template with Collection Variables</h1>
+		<p>Top NBA players: </p> 
+		<ul>
+			{{range $index, $player := .}}
+			<li> {{$player.Lname}}, {{$player.Fname}} plays {{$player.Position}} </li>
+			{{end}}
+		</ul>
 	</body>
 </html>
