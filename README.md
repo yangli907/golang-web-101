@@ -54,3 +54,67 @@ Then we can directly call the `IsPF()` method as below, in the template:
 			{{end}}
 		</ul>
 ```
+
+## GoRoutine
+
+Use `go <func_name>` to invoke a function in **goroutine**, which runs in background and will execute concurrently with the calling thread.
+
+Consider the following example, from 
+```
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func f(from string) {
+    for i := 0; i < 3; i++ {
+        fmt.Println(from, ":", i)
+    }
+}
+
+func main() {
+
+    f("direct")
+
+    go f("goroutine")
+
+    go func(msg string) {
+        fmt.Println(msg)
+    }("going")
+
+    time.Sleep(time.Second)
+    fmt.Println("done")
+}
+```
+which prints
+```
+$ go run goroutines.go
+direct : 0
+direct : 1
+direct : 2
+goroutine : 0
+going
+goroutine : 1
+goroutine : 2
+done
+```
+
+Read more at [this page](https://gobyexample.com/goroutines)
+
+## Write Server Response 
+
+To implement an http server with server side response in HTML format, the server needs to construct the response body with standard HTTP format.
+
+Below is an example:
+
+```
+func writeResponse(conn net.Conn) {
+	body := `<!DOCTYPE html><html lang="en"> <head><meta charet="UTF-8"></head><body><string> hello there</strong> </body></html>`
+	fmt.Fprint(conn, "HTTP/1.1 200 OK\r\n") // Mandatory response header.
+	fmt.Fprint(conn, "Content-Type: text/html\r\n")
+	fmt.Fprint(conn, "\r\n")
+	fmt.Fprint(conn, body)
+}
+```
